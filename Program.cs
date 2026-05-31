@@ -5,28 +5,28 @@ namespace ToDo
 {
     internal class Program
     {
-        public static List<string> TL { get; set; }
+        public static List<string> TaskList { get; set; }
 
         static void Main(string[] args)
         {
-            TL = new List<string>();
-            int variable = 0;
+            TaskList = new List<string>();
+            int seleccionMenu = 0;
             do
             {
-                variable = ShowMainMenu();
-                if (variable == 1)
+                seleccionMenu = ShowMainMenu();
+                if (seleccionMenu == 1)
                 {
                     ShowMenuAdd();
                 }
-                else if (variable == 2)
+                else if (seleccionMenu == 2)
                 {
-                    ShowMenuDos();
+                    RemoverTarea();
                 }
-                else if (variable == 3)
+                else if (seleccionMenu == 3)
                 {
-                    ShowMenuTres();
+                    MostrarTareas();
                 }
-            } while (variable != 4);
+            } while (seleccionMenu != 4);
         }
         /// <summary>
         /// Show the main menu 
@@ -42,31 +42,31 @@ namespace ToDo
             Console.WriteLine("4. Salir");
 
             // Read line
-            string line = Console.ReadLine();
-            return Convert.ToInt32(line);
+            string mainMenuOption = Console.ReadLine();
+            return Convert.ToInt32(mainMenuOption);
         }
 
-        public static void ShowMenuDos()
+        public static void RemoverTarea()
         {
             try
             {
                 Console.WriteLine("Ingrese el número de la tarea a remover: ");
                 // Show current taks
-                for (int i = 0; i < TL.Count; i++)
+                for (int i = 0; i < TaskList.Count; i++)
                 {
-                    Console.WriteLine((i + 1) + ". " + TL[i]);
+                    Console.WriteLine((i + 1) + ". " + TaskList[i]);
                 }
                 Console.WriteLine("----------------------------------------");
 
-                string line = Console.ReadLine();
+                string indexSelection = Console.ReadLine();
                 // Remove one position
-                int indexToRemove = Convert.ToInt32(line) - 1;
+                int indexToRemove = Convert.ToInt32(indexSelection) - 1;
                 if (indexToRemove > -1)
                 {
-                    if (TL.Count > 0)
+                    if (TaskList.Count > 0)
                     {
-                        string task = TL[indexToRemove];
-                        TL.RemoveAt(indexToRemove);
+                        string task = TaskList[indexToRemove];
+                        TaskList.RemoveAt(indexToRemove);
                         Console.WriteLine("Tarea " + task + " eliminada");
                     }
                 }
@@ -81,8 +81,8 @@ namespace ToDo
             try
             {
                 Console.WriteLine("Ingrese el nombre de la tarea: ");
-                string task = Console.ReadLine();
-                TL.Add(task);
+                string taskName = Console.ReadLine();
+                TaskList.Add(taskName);
                 Console.WriteLine("Tarea registrada");
             }
             catch (Exception)
@@ -90,18 +90,18 @@ namespace ToDo
             }
         }
 
-        public static void ShowMenuTres()
+        public static void MostrarTareas()
         {
-            if (TL == null || TL.Count == 0)
+            if (TaskList == null || TaskList.Count == 0)
             {
                 Console.WriteLine("No hay tareas por realizar");
             } 
             else
             {
                 Console.WriteLine("----------------------------------------");
-                for (int i = 0; i < TL.Count; i++)
+                for (int i = 0; i < TaskList.Count; i++)
                 {
-                    Console.WriteLine((i + 1) + ". " + TL[i]);
+                    Console.WriteLine((i + 1) + ". " + TaskList[i]);
                 }
                 Console.WriteLine("----------------------------------------");
             }
