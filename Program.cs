@@ -14,19 +14,19 @@ namespace ToDo
             do
             {
                 seleccionMenu = ShowMainMenu();
-                if (seleccionMenu == 1)
+                if ((MenuOptions)seleccionMenu == MenuOptions.NuevaTarea)
                 {
                     ShowMenuAdd();
                 }
-                else if (seleccionMenu == 2)
+                else if ((MenuOptions)seleccionMenu == MenuOptions.RemoverTarea)
                 {
                     RemoverTarea();
                 }
-                else if (seleccionMenu == 3)
+                else if ((MenuOptions)seleccionMenu == MenuOptions.TareasPendientes)
                 {
                     MostrarTareas();
                 }
-            } while (seleccionMenu != 4);
+            } while (seleccionMenu != (int)MenuOptions.Salir);
         }
         /// <summary>
         /// Show the main menu 
@@ -52,11 +52,7 @@ namespace ToDo
             {
                 Console.WriteLine("Ingrese el número de la tarea a remover: ");
                 // Show current taks
-                for (int i = 0; i < TaskList.Count; i++)
-                {
-                    Console.WriteLine((i + 1) + ". " + TaskList[i]);
-                }
-                Console.WriteLine("----------------------------------------");
+                MostrarTareas();
 
                 string indexSelection = Console.ReadLine();
                 // Remove one position
@@ -105,6 +101,14 @@ namespace ToDo
                 }
                 Console.WriteLine("----------------------------------------");
             }
+        }
+
+        public enum MenuOptions
+        {
+            NuevaTarea = 1,
+            RemoverTarea = 2,
+            TareasPendientes = 3,
+            Salir = 4
         }
     }
 }
