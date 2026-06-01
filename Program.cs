@@ -16,7 +16,7 @@ namespace ToDo
                 seleccionMenu = ShowMainMenu();
                 if ((MenuOptions)seleccionMenu == MenuOptions.NuevaTarea)
                 {
-                    ShowMenuAdd();
+                    AgregarTarea();
                 }
                 else if ((MenuOptions)seleccionMenu == MenuOptions.RemoverTarea)
                 {
@@ -57,30 +57,41 @@ namespace ToDo
                 string indexSelection = Console.ReadLine();
                 // Remove one position
                 int indexToRemove = Convert.ToInt32(indexSelection) - 1;
-                if (indexToRemove > -1 && TaskList.Count > 0)
+
+                if (indexToRemove < 0 || indexToRemove >= TaskList.Count)
+                {
+                    Console.WriteLine("Número de tarea no válido");
+                    return;
+                }
+                else
                 {
                     string task = TaskList[indexToRemove];
                     TaskList.RemoveAt(indexToRemove);
                     Console.WriteLine("Tarea " + task + " eliminada");
                 }
+ 
             }
             catch (Exception)
             {
+                Console.WriteLine("Opción no válida");
+                
             }
         }
 
-        public static void ShowMenuAdd()
+        public static void AgregarTarea()
         {
-            try
+            Console.WriteLine("Ingrese el nombre de la tarea: ");
+            string taskName = Console.ReadLine();
+
+            // Validación explícita de los datos de entrada
+            if (string.IsNullOrWhiteSpace(taskName))
             {
-                Console.WriteLine("Ingrese el nombre de la tarea: ");
-                string taskName = Console.ReadLine();
-                TaskList.Add(taskName);
-                Console.WriteLine("Tarea registrada");
+                Console.WriteLine("Error: El nombre de la tarea no puede estar vacío.");
+                return; 
             }
-            catch (Exception)
-            {
-            }
+
+            TaskList.Add(taskName);
+            Console.WriteLine("Tarea registrada exitosamente.");
         }
 
         public static void MostrarTareas()
