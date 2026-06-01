@@ -1,129 +1,127 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+namespace ToDo;
 
-namespace ToDo
+internal class Program
 {
-    internal class Program
+    public static List<string> TaskList { get; set; } = new List<string>();
+
+    static void Main(string[] args)
     {
-        public static List<string> TaskList { get; set; } = new List<string>();
-
-        static void Main(string[] args)
+        int seleccionMenu = 0;
+        do
         {
-            int seleccionMenu = 0;
-            do
+            seleccionMenu = ShowMainMenu();
+            if ((MenuOptions)seleccionMenu == MenuOptions.NuevaTarea)
             {
-                seleccionMenu = ShowMainMenu();
-                if ((MenuOptions)seleccionMenu == MenuOptions.NuevaTarea)
-                {
-                    AgregarTarea();
-                }
-                else if ((MenuOptions)seleccionMenu == MenuOptions.RemoverTarea)
-                {
-                    RemoverTarea();
-                }
-                else if ((MenuOptions)seleccionMenu == MenuOptions.TareasPendientes)
-                {
-                    MostrarTareas();
-                }
-                else
-                {
-                    Console.WriteLine("Opción no válida");
-                }
-            } while (seleccionMenu != (int)MenuOptions.Salir);
-        }
-        /// <summary>
-        /// Show the main menu 
-        /// </summary>
-        /// <returns>Returns option indicated by user</returns>
-        public static int ShowMainMenu()
-        {
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine("Ingrese la opción a realizar: ");
-            Console.WriteLine("1. Nueva tarea");
-            Console.WriteLine("2. Remover tarea");
-            Console.WriteLine("3. Tareas pendientes");
-            Console.WriteLine("4. Salir");
-
-            // Read line
-            string mainMenuOption = Console.ReadLine();
-            return Convert.ToInt32(mainMenuOption);
-        }
-
-        public static void RemoverTarea()
-        {
-            try
-            {
-                Console.WriteLine("Ingrese el número de la tarea a remover: ");
-                // Show current taks
-                ListarTareas();
-
-                string indexSelection = Console.ReadLine();
-                // Remove one position
-                int indexToRemove = Convert.ToInt32(indexSelection) - 1;
-
-                if (indexToRemove < 0 || indexToRemove >= TaskList.Count)
-                {
-                    Console.WriteLine("Número de tarea no válido");
-                    return;
-                }
-                else
-                {
-                    string task = TaskList[indexToRemove];
-                    TaskList.RemoveAt(indexToRemove);
-                    Console.WriteLine("Tarea " + task + " eliminada");
-                }
- 
+                AgregarTarea();
             }
-            catch (Exception)
+            else if ((MenuOptions)seleccionMenu == MenuOptions.RemoverTarea)
             {
-                Console.WriteLine("Opción no válida");
-                
+                RemoverTarea();
             }
-        }
-
-        public static void AgregarTarea()
-        {
-            Console.WriteLine("Ingrese el nombre de la tarea: ");
-            string taskName = Console.ReadLine();
-
-            // Validación explícita de los datos de entrada
-            if (string.IsNullOrWhiteSpace(taskName))
+            else if ((MenuOptions)seleccionMenu == MenuOptions.TareasPendientes)
             {
-                Console.WriteLine("Error: El nombre de la tarea no puede estar vacío.");
-                return; 
+                MostrarTareas();
             }
-
-            TaskList.Add(taskName);
-            Console.WriteLine("Tarea registrada exitosamente.");
-        }
-
-        public static void MostrarTareas()
-        {
-            if (TaskList ?.Count > 0)
-            {
-                ListarTareas();
-            } 
             else
             {
-                Console.WriteLine("No hay tareas por realizar");
+                Console.WriteLine("Opción no válida");
             }
-        }
+        } while (seleccionMenu != (int)MenuOptions.Salir);
+    }
+    /// <summary>
+    /// Show the main menu 
+    /// </summary>
+    /// <returns>Returns option indicated by user</returns>
+    public static int ShowMainMenu()
+    {
+        Console.WriteLine("----------------------------------------");
+        Console.WriteLine("Ingrese la opción a realizar: ");
+        Console.WriteLine("1. Nueva tarea");
+        Console.WriteLine("2. Remover tarea");
+        Console.WriteLine("3. Tareas pendientes");
+        Console.WriteLine("4. Salir");
 
-        public enum MenuOptions
-        {
-            NuevaTarea = 1,
-            RemoverTarea = 2,
-            TareasPendientes = 3,
-            Salir = 4
-        }
+        // Read line
+        string mainMenuOption = Console.ReadLine();
+        return Convert.ToInt32(mainMenuOption);
+    }
 
-        public static void ListarTareas()
+    public static void RemoverTarea()
+    {
+        try
         {
-            Console.WriteLine("----------------------------------------");
+            Console.WriteLine("Ingrese el número de la tarea a remover: ");
+            // Show current taks
+            ListarTareas();
+
+            string indexSelection = Console.ReadLine();
+            // Remove one position
+            int indexToRemove = Convert.ToInt32(indexSelection) - 1;
+
+            if (indexToRemove < 0 || indexToRemove >= TaskList.Count)
+            {
+                Console.WriteLine("Número de tarea no válido");
+                return;
+            }
+            else
+            {
+                string task = TaskList[indexToRemove];
+                TaskList.RemoveAt(indexToRemove);
+                Console.WriteLine("Tarea " + task + " eliminada");
+            }
+
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Opción no válida");
             
-            TaskList.ForEach(t => Console.WriteLine(($"{TaskList.IndexOf(t) + 1}. {t}")));
-            
-            Console.WriteLine("----------------------------------------");
         }
     }
+
+    public static void AgregarTarea()
+    {
+        Console.WriteLine("Ingrese el nombre de la tarea: ");
+        string taskName = Console.ReadLine();
+
+        // Validación explícita de los datos de entrada
+        if (string.IsNullOrWhiteSpace(taskName))
+        {
+            Console.WriteLine("Error: El nombre de la tarea no puede estar vacío.");
+            return; 
+        }
+
+        TaskList.Add(taskName);
+        Console.WriteLine("Tarea registrada exitosamente.");
+    }
+
+    public static void MostrarTareas()
+    {
+        if (TaskList ?.Count > 0)
+        {
+            ListarTareas();
+        } 
+        else
+        {
+            Console.WriteLine("No hay tareas por realizar");
+        }
+    }
+
+    public enum MenuOptions
+    {
+        NuevaTarea = 1,
+        RemoverTarea = 2,
+        TareasPendientes = 3,
+        Salir = 4
+    }
+
+    public static void ListarTareas()
+    {
+        Console.WriteLine("----------------------------------------");
+        
+        TaskList.ForEach(t => Console.WriteLine(($"{TaskList.IndexOf(t) + 1}. {t}")));
+        
+        Console.WriteLine("----------------------------------------");
+    }
 }
+
