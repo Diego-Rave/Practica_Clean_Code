@@ -5,11 +5,10 @@ namespace ToDo
 {
     internal class Program
     {
-        public static List<string> TaskList { get; set; }
+        public static List<string> TaskList { get; set; } = new List<string>();
 
         static void Main(string[] args)
         {
-            TaskList = new List<string>();
             int seleccionMenu = 0;
             do
             {
@@ -25,6 +24,10 @@ namespace ToDo
                 else if ((MenuOptions)seleccionMenu == MenuOptions.TareasPendientes)
                 {
                     MostrarTareas();
+                }
+                else
+                {
+                    Console.WriteLine("Opción no válida");
                 }
             } while (seleccionMenu != (int)MenuOptions.Salir);
         }
@@ -96,13 +99,13 @@ namespace ToDo
 
         public static void MostrarTareas()
         {
-            if (TaskList == null || TaskList.Count == 0)
+            if (TaskList ?.Count > 0)
             {
-                Console.WriteLine("No hay tareas por realizar");
+                ListarTareas();
             } 
             else
             {
-            ListarTareas();
+                Console.WriteLine("No hay tareas por realizar");
             }
         }
 
@@ -118,7 +121,7 @@ namespace ToDo
         {
             Console.WriteLine("----------------------------------------");
             
-            TaskList.ForEach(t => Console.WriteLine((TaskList.IndexOf(t) + 1) + ". " + t));
+            TaskList.ForEach(t => Console.WriteLine(($"{TaskList.IndexOf(t) + 1}. {t}")));
             
             Console.WriteLine("----------------------------------------");
         }
