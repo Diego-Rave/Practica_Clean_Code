@@ -29,10 +29,8 @@ internal class Program
             }
         } while (seleccionMenu != (int)MenuOptions.Salir);
     }
-    /// <summary>
-    /// Show the main menu 
-    /// </summary>
-    /// <returns>Returns option indicated by user</returns>
+   
+   // Muestra el menú principal y devuelve la opción seleccionada por el usuario
     public static int ShowMainMenu()
     {
         Console.WriteLine("----------------------------------------");
@@ -42,7 +40,6 @@ internal class Program
         Console.WriteLine("3. Tareas pendientes");
         Console.WriteLine("4. Salir");
 
-        // Read line
         string mainMenuOption = Console.ReadLine();
         return Convert.ToInt32(mainMenuOption);
     }
@@ -56,7 +53,7 @@ internal class Program
             ListarTareas();
 
             string indexSelection = Console.ReadLine();
-            // Remove one position
+          
             int indexToRemove = Convert.ToInt32(indexSelection) - 1;
 
             if (indexToRemove < 0 || indexToRemove >= TaskList.Count)
